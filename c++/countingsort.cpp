@@ -32,5 +32,34 @@ int main() {
         cout << arr[i] << " ";
     }
 
-    return 0;
+
+    // without comparsion
+    int k;cin>>k;
+    vector<int> ar(k);
+    for(int i = 0; i < k; i++) {
+    cin >> ar[i];
+    }
+    
+
+    int mx=*max_element(ar.begin(),ar.end());
+    vector<int> ct(mx+1,0);
+    
+     for(int i=0;i<k;i++){
+        ct[ar[i]]++;
+     }
+
+    int id=0;
+    for(int i=0;i<=mx;i++){
+        if(ct[i]>0){
+            for(int j=0;j<ct[i];j++){
+                ar[id]=i;
+                id++;
+            }
+        }
+    }
+
+    cout << "Sorted array: ";
+    for(int i = 0; i < k; i++) {
+        cout << ar[i] << " ";
+    }
 }
