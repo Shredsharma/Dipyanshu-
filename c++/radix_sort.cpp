@@ -1,11 +1,22 @@
 #include <iostream>
 #include <vector>
 using namespace std;
+void radixSort(vector<int> &arr) {
+    int maxVal = arr[0];
 
+    for(int i = 1; i < arr.size(); i++) {
+        if(arr[i] > maxVal)
+            maxVal = arr[i];
+    }
+
+    for(int exp = 1; maxVal / exp > 0; exp *= 10) {
+        countingSort(arr, exp);
+    }
+}
 void countingSort(vector<int>& arr, int exp) {
     int n = arr.size();
     vector<int> output(n);
-    int count[10] = {0};
+    int count[100] = {0};
 
     for(int i = 0; i < n; i++) {
         int digit = (arr[i] / exp) % 10;
@@ -23,19 +34,6 @@ void countingSort(vector<int>& arr, int exp) {
     }
 
     arr = output;
-}
-
-void radixSort(vector<int> &arr) {
-    int maxVal = arr[0];
-
-    for(int i = 1; i < arr.size(); i++) {
-        if(arr[i] > maxVal)
-            maxVal = arr[i];
-    }
-
-    for(int exp = 1; maxVal / exp > 0; exp *= 10) {
-        countingSort(arr, exp);
-    }
 }
 
 int main() {
