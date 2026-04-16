@@ -34,6 +34,36 @@ void printList(Node* head){
     cout<<""<<endl;
 }
 
+void insertAtPosition(Node* &head, int value, int pos) {
+    Node* newNode = new Node();
+    newNode->data = value;
+
+    if(pos == 1) {
+        newNode->next = head;
+        head = newNode;
+        return;
+    }
+
+    Node* temp = head;
+
+    for(int i = 1; i < pos-1; i++) {
+        if(temp == NULL) {
+            cout << "Position out of range!" << endl;
+            return;
+        }
+        temp = temp->next;
+    }
+
+    // If temp is NULL or next is NULL at wrong time
+    if(temp == NULL) {
+        cout << "Position out of range!" << endl;
+        return;
+    }
+
+    newNode->next = temp->next;
+    temp->next = newNode;
+}
+
 
 int main(){
     Node* head=new Node(2);
