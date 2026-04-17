@@ -1,25 +1,26 @@
-//in collections of nodes: each node has:data and(&) link(address);  #link got: Data & link and so on until there is null at link part;
-//type: single,double,circular linked list
-// it's linear data structure, it's best thing is: insertion and deletion;
-//#insertion : adding anew node at the specified positionin th4e list. 
-//types: 1;front of linked list, before given possii, after given possii, at posii, at the end of linked list
 #include <iostream>
 using namespace std;
 
 class Node {
 public:
     int data;
+    Node* prev;
     Node* next;
 
     Node(int value) {
         data = value;
+        prev = NULL;
         next = NULL;
     }
 };
 
 void insertAtBeginning(Node* &head, int value) {
     Node* newNode = new Node(value);
-    newNode->next = head;
+
+    if(head != NULL) {
+        head->prev = newNode;
+        newNode->next = head;
+    }
     head = newNode;
 }
 
@@ -35,7 +36,9 @@ void insertAtEnd(Node* &head, int value) {
     while(temp->next != NULL) {
         temp = temp->next;
     }
+
     temp->next = newNode;
+    newNode->prev = temp;
 }
 
 void insertAtPosition(Node* &head, int value, int pos) {
@@ -44,16 +47,21 @@ void insertAtPosition(Node* &head, int value, int pos) {
         return;
     }
 
-    Node* newNode = new Node(value);
     Node* temp = head;
-
     for(int i = 1; i < pos-1 && temp != NULL; i++) {
         temp = temp->next;
     }
 
     if(temp == NULL) return;
 
+    Node* newNode = new Node(value);
+
     newNode->next = temp->next;
+    newNode->prev = temp;
+
+    if(temp->next != NULL)
+        temp->next->prev = newNode;
+
     temp->next = newNode;
 }
 
@@ -61,7 +69,12 @@ void deleteAtBeginning(Node* &head) {
     if(head == NULL) return;
 
     Node* temp = head;
+
     head = head->next;
+
+    if(head != NULL)
+        head->prev = NULL;
+
     delete temp;
 }
 
@@ -75,12 +88,12 @@ void deleteAtEnd(Node* &head) {
     }
 
     Node* temp = head;
-    while(temp->next->next != NULL) {
+    while(temp->next != NULL) {
         temp = temp->next;
     }
 
-    delete temp->next;
-    temp->next = NULL;
+    temp->prev->next = NULL;
+    delete temp;
 }
 
 void deleteAtPosition(Node* &head, int pos) {
@@ -92,20 +105,24 @@ void deleteAtPosition(Node* &head, int pos) {
     }
 
     Node* temp = head;
-    for(int i = 1; i < pos-1 && temp->next != NULL; i++) {
+    for(int i = 1; i < pos && temp != NULL; i++) {
         temp = temp->next;
     }
 
-    if(temp->next == NULL) return;
+    if(temp == NULL) return;
 
-    Node* nodeToDelete = temp->next;
-    temp->next = nodeToDelete->next;
-    delete nodeToDelete;
+    if(temp->next != NULL)
+        temp->next->prev = temp->prev;
+
+    if(temp->prev != NULL)
+        temp->prev->next = temp->next;
+
+    delete temp;
 }
 
 void printList(Node* head) {
     while(head != NULL) {
-        cout << head->data << " -> ";
+        cout << head->data << " <-> ";
         head = head->next;
     }
     cout << "NULL" << endl;

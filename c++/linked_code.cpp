@@ -6,13 +6,11 @@ struct Node {
     Node* next;
 };
 
-// Function to insert at position
 void insertAtPosition(Node* &head, int value, int pos) {
     Node* newNode = new Node();
     newNode->data = value;
     newNode->next = NULL;
 
-    // Case 1: Insert at beginning
     if(pos == 1) {
         newNode->next = head;
         head = newNode;
@@ -21,7 +19,6 @@ void insertAtPosition(Node* &head, int value, int pos) {
 
     Node* temp = head;
 
-    // Traverse to (pos - 1) node
     for(int i = 1; i < pos - 1; i++) {
         if(temp == NULL) {
             cout << "Position out of range!" << endl;
@@ -30,7 +27,6 @@ void insertAtPosition(Node* &head, int value, int pos) {
         temp = temp->next;
     }
 
-    // If position is still invalid
     if(temp == NULL) {
         cout << "Position out of range!" << endl;
         return;
@@ -59,12 +55,10 @@ int main() {
     cout << "Initial List: ";
     display(head);
 
-    // Insert on valid position
     insertAtPosition(head, 25, 3);
     cout << "After inserting 25 at position 3: ";
     display(head);
 
-    //invalid position
     insertAtPosition(head, 50, 10);
 
     return 0;
