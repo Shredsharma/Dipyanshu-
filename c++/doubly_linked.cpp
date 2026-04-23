@@ -14,9 +14,8 @@ public:
     }
 };
 
-void insertAtBeginning(Node* &head, int value) {
+void insertAtFront(Node* &head, int value) {
     Node* newNode = new Node(value);
-
     if(head != NULL) {
         head->prev = newNode;
         newNode->next = head;
@@ -27,7 +26,8 @@ void insertAtBeginning(Node* &head, int value) {
 void insertAtEnd(Node* &head, int value) {
     Node* newNode = new Node(value);
 
-    if(head == NULL) {
+    if(head == NULL)
+    {
         head = newNode;
         return;
     }
@@ -43,7 +43,7 @@ void insertAtEnd(Node* &head, int value) {
 
 void insertAtPosition(Node* &head, int value, int pos) {
     if(pos == 1) {
-        insertAtBeginning(head, value);
+        insertAtFront(head, value);
         return;
     }
 
@@ -65,7 +65,7 @@ void insertAtPosition(Node* &head, int value, int pos) {
     temp->next = newNode;
 }
 
-void deleteAtBeginning(Node* &head) {
+void deleteAtFront(Node* &head) {
     if(head == NULL) return;
 
     Node* temp = head;
@@ -100,7 +100,7 @@ void deleteAtPosition(Node* &head, int pos) {
     if(head == NULL) return;
 
     if(pos == 1) {
-        deleteAtBeginning(head);
+        deleteAtFront(head);
         return;
     }
 
@@ -146,7 +146,7 @@ int main() {
 
     cout << "\nEnter value to insert at beginning: ";
     cin >> value;
-    insertAtBeginning(head, value);
+    insertAtFront(head, value);
 
     cout << "After insert at beginning: ";
     printList(head);
@@ -158,7 +158,7 @@ int main() {
     cout << "After insert at position: ";
     printList(head);
 
-    deleteAtBeginning(head);
+    deleteAtFront(head);
     cout << "\nAfter delete at beginning: ";
     printList(head);
 
